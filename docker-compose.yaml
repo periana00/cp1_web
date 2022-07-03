@@ -1,0 +1,6 @@
+services:
+  client:
+    image: node:16.15.1-alpine3.15
+  server:
+    image: node:16.15.1-alpine3.15
+
