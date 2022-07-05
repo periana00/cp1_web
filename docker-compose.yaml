@@ -1,6 +1,25 @@
 services:
   client:
-    image: node:16.15.1-alpine3.15
+    build: 
+      context: client/
+    volumes:
+      # 만약 배포한다면 주석 제거
+      - /app/node_modules
+      - "./client:/app"
+    command: npm start
+    depends_on:
+      - server
+    ports:
+      # 외부
+      - ${CLIENT_PORT}:${CLIENT_PORT}
+    environment:
+      - PORT=${CLIENT_PORT}
+      - WATCHPACK_POLLING=true
   server:
-    image: node:16.15.1-alpine3.15
-
+    build: 
+      context: server/
+    volumes:
+      # 만약 배포한다면 주석 제거
+      - /app/node_modules
+      - "./server:/app"
+    command: npm start
