@@ -1,0 +1,28 @@
+
+.search {
+    flex: 1;
+    width: 100%;
+    nav {
+        margin-top: 0.5em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        a {
+            &:hover {
+                background-color: #ddd;
+            }
+            color:#bbb;
+            text-decoration: none;
+            margin-right: 1em;
+            width:4em;
+            height:2em;
+            line-height: 2em;
+            text-align: center;
+            border-radius: 1em;
+        }
+        a.active {
+            color:#333;
+        }
+    }
+}

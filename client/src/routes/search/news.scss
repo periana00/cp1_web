@@ -1,0 +1,138 @@
+.news {
+    font-size: 0.7em;
+    position: relative;
+
+    ul {
+        padding: 0;
+    }
+    
+    button {
+        background-color: inherit;
+        outline: none;
+        border: none;
+    }
+
+    li {
+        list-style-type: none;
+        padding: 0;
+
+        &:hover {
+            background-color: #ddd;
+        }
+        & > div {
+            margin: 0.5em;
+        }
+        display: flex;
+        flex-direction: row;
+
+        a {
+            text-decoration: none;
+            color: #333;        
+        }
+        
+        div.status {
+            user-select: none;
+            display: flex;
+            flex-direction: row;
+            padding-right: 0.5em;
+            border-right: 1px solid #aaa;
+            text-align: center;
+            .emotion {
+                font-size: 0.5em;
+                color: #aaa;
+            }
+            .count {
+                font-size: 0.8em;
+                color: #333;
+            }
+        }
+
+        div.title {
+            flex: 1;
+        }
+
+        span {
+            padding:2px;
+            text-align: center;
+        }
+        img {
+            display: block;
+            margin: 0 auto;
+            width: 1em;
+            height: 1em;
+        }
+
+        .description {
+            display: flex;
+            align-items: bottom;
+            font-size: 0.9em;
+            margin-top: 0.2em;
+            .comments {
+                line-height: 1em;
+                color: #aaa;
+                vertical-align: middle;
+                margin-right: 0.5em;
+            }
+            button {            
+                user-select: none;
+                display: block;
+                line-height: 1em;
+                border: 1px solid #aaa;
+                border-radius: 0.2em;
+                &:hover {
+                    background-color: #fff;
+                }
+            }
+        }
+
+    }
+    
+
+    .popup {
+        visibility: hidden;
+        position: fixed;
+        width:0;
+        height:0;
+        left: 50%;
+        transition: 0.3s ease all;
+        border: 1px solid #aaa;
+        border-radius: 1em;
+        box-shadow: 0 0 2px 0 #999;
+        background-color: white;
+        color: transparent;
+        padding: 1em;
+        &.view {
+            visibility: inherit;
+            left:25%;
+            width: 50%;
+            height: 20%;
+            color: black;
+        }
+
+        .exit {
+            position: absolute;
+            top: 0.5em;
+            right: 0.5em;
+            color: #aaa;
+            font-size: 1.5em;
+            line-height: 1em;
+        }
+
+        .circle {position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); width:40px; height:40px; border:10px solid #fff; border-top:10px solid cyan; border-radius:50em;
+            animation-name:spinCircle;
+            animation-duration:.8s;
+            animation-iteration-count:infinite;
+        }
+
+        @keyframes spinCircle {
+            from {
+                transform:translate(-50%, -50%) rotate(0);
+            }
+            to {
+                transform:translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+    }
+
+}

@@ -1,0 +1,49 @@
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+
+  .search-wrap {
+    margin-top: 1em;
+    background-color: white;
+    border-radius: calc(10px);
+    padding: 0.2em 0.4em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #bbb;
+
+    &:hover {
+      box-shadow: 0 0 4px 0px #aaa;
+    }
+    
+    svg {
+      margin-right: 0.2em;
+      width: 1em;
+      height: 1em;
+      fill:#aaa;
+      path {
+        line-height: 1em;
+      }
+    }
+
+    span {
+      margin-right: 0.5em;
+      vertical-align: middle;
+      padding:1em;
+    }
+
+    .search-bar {
+      height: 2em;
+      width: 20em;
+      display: block;
+      border: none;
+      outline: none;
+      font-size: inherit;
+      font-size: calc(10px + 1vmin);
+    }
+  }
+}

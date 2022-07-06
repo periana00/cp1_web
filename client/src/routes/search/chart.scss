@@ -1,0 +1,15 @@
+.chart {
+    display: flex;
+    box-sizing: border-box;
+    width:100%;
+    flex-direction: row;
+    padding: 1vw;
+    div.wordcloud {
+        border: 2px solid #aaa;
+        margin-right: 1vw;
+    }
+    div.line {
+        flex: 1;
+        border: 2px solid #aaa;
+    }
+}
