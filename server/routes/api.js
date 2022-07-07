@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const { Client } = require('@elastic/elasticsearch');
 const client = new Client({
-    node: ['http://host.docker.internal:9200'],
+    node: ['http://175.196.244.121:9200'],
     auth: {
         username: 'elastic',
         password: 'appleBanana'
@@ -59,7 +59,7 @@ async function match(params) {
                     "keyword": {
                         terms: {
                             field: "comments.text",
-                            size: 30
+                            size: 40
                         },
                         aggs: {
                           "sentiment": {
@@ -102,6 +102,7 @@ async function match(params) {
         return result
     } catch (err) {
         console.log('wrong query');
+        console.log(err);
         return {'error': 'wrong query'};
     }
 }
@@ -158,6 +159,7 @@ router.get('/news', async (req, res, next) => {
 
 // 본문 요약
 router.post('/summarization', async (req, res, next) => {
+    console.log('본문 요약 시작');
     axios.post('http://121.148.210.97:5000/summary', {
         body: {data: req.body.data},
     }).then(response => {

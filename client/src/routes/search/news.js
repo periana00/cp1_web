@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import queryString from 'query-string';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './news.scss';
 
 function Popup(props) {
     return (<div className={props.view ? 'popup view' : 'popup'}>
         {props.view == true ? null : <div onClick={(e)=> props.setView(false)} className={'exit'}>X</div>}
-        <div>{props.view == true ? (<div class="circle"></div>) : props.view}</div>
+        <div>{props.view == true ? (<div className="circle"></div>) : props.view}</div>
     </div>)
 }
 
@@ -15,11 +14,10 @@ export default function App() {
     let [data, setData] = useState([]);
     let [view, setView] = useState(false);
     let location = useLocation()
-    const params = queryString.parse(location.search);
 
     useEffect(() => {
         // setData([]);
-        fetch('http://localhost:3000/api/news' + location.search).then(res => res.json()).then(data => {
+        fetch('http://146.56.179.190:3000/api/news' + location.search).then(res => res.json()).then(data => {
             setData(data.hits.hits.map(x => {
                 const result = x._source;
                 result.id = x._id;
@@ -31,7 +29,7 @@ export default function App() {
     const summarization = (text) => {
         return (e) => {
             setView(true);
-            fetch('http://localhost:3000/api/summarization', {
+            fetch('http://146.56.179.190:3000/api/summarization', {
                 method: 'POST',
                 body: JSON.stringify({
                     data: text

@@ -1,6 +1,6 @@
 import './chart.scss';
 import React, { useEffect, useRef, useState } from 'react';
-import { useOutletContext, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReactWordcloud from 'react-wordcloud';
 import queryString from 'query-string';
 import { Chart, getDatasetAtEvent  } from 'react-chartjs-2';
@@ -38,6 +38,12 @@ function getGraph(params, data) {
         datasets: [{
             type: 'line',
             label: params.month ? params.month + '월' : params.year ? params.year + '년' : '전체',
+            borderColor: "#bae755",
+            backgroundColor: "#55bae7",
+            pointBackgroundColor: "#55bae7",
+            pointBorderColor: "#55bae7",
+            pointHoverBackgroundColor: "#55bae7",
+            pointHoverBorderColor: "#55bae7",
             data: [],
         }]
     };
@@ -52,7 +58,6 @@ function getGraph(params, data) {
           return {x: getChartX(params, bucket['key_as_string']), y: sentiment_size / doc_size}
         })
     }
-    console.log(graph);
     return graph
 }
 
@@ -69,7 +74,7 @@ export default function App() {
 
     useEffect(() => {
         setData([]);
-        fetch('http://localhost:3000/api/keyword' + location.search).then(res => res.json()).then(data => {
+        fetch('http://146.56.179.190:3000//api/keyword' + location.search).then(res => res.json()).then(data => {
         setData(data);
         console.log(data);
         }).catch(err => console.log(err));
@@ -89,34 +94,71 @@ export default function App() {
     const graphCallback = (e) => {
         e = getDatasetAtEvent(chartRef.current, e)
         if (e.length) {
-            let date = e[0].element.$context.raw.x;
-            const interval = {'년': 'year', '월': 'month'}[date.slice(-1)];
-            if (interval.length) {
-                params[interval] = date.slice(0,-1)
-                const query = queryString.stringify(params);
-                navigate(`/search/chart/?${query}`);
+            for (let i of e) {
+                if (i.element.$context.active) {
+                    let date = i.element.$context.raw.x;
+                    const interval = {'년': 'year', '월': 'month'}[date.slice(-1)];
+                    if (interval.length) {
+                        params[interval] = date.slice(0,-1)
+                        const query = queryString.stringify(params);
+                        navigate(`/search/chart/?${query}`);
+                    }
+                }
             }
         }
     }
     
     const wordsOptions = {
         rotations: 0,
-        fontSizes: [10, 50],
+        fontSizes: [20, 60],
         fontFamily: 'Jua',
-        padding: 1,
+        padding: 5,
     };
 
     const graphOptions = {
         responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: function (value) {
+                      return (value * 100).toFixed(2) + '%'; // convert it to percentage
+                    },
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Percentage',
+                },
+            }
+        },
+        plugins: {
+            datalabels: {
+                formatter: (value, ctx) => {
+                    let sum = 0;
+                    let dataArr = ctx.chart.data.datasets[0].data;
+                    dataArr.map(data => {
+                        sum += data;
+                    });
+                    let percentage = (value*100 / sum).toFixed(2)+"%";
+                    return percentage;
+                },
+                color: '#aaa',
+            }
+        }
     }
 
     return (
         <div className='chart'>
             <div className='wordcloud'>
+                {'aggregations' in data ? null : <div className="circle"></div>}
+                <div className="status">
+                    <div className={'orange'}>호감</div>
+                    <div className={'purple'}>비호감</div>
+                </div>
                 <ReactWordcloud 
                     callbacks={wordsCallbacks}
                     options={wordsOptions}
-                    size={[400, 400]}
+                    size={[400, 500]}
                     words={words}
                 />
             </div>
